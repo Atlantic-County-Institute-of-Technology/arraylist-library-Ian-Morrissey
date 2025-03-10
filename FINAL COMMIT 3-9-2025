@@ -1,0 +1,118 @@
+// Ian Morrissey
+// Digital Library
+// Creates a digital library and allows the user to edit its contents add/delte/shuffle etc..
+//3/7/2025
+
+import java.util.*;
+
+class Library {
+    private ArrayList<String> collection;
+    // The entire library
+    public Library() {
+        collection = new ArrayList<>(); 
+    }
+    // Adds an item to the last index of the library
+    public void addItem(String item) {
+        collection.add(item);
+    }
+    // Removes the item from the list
+    public void removeItem(String item) {
+        collection.remove(item);
+    }
+    // If the list is empty nothing happens but if their is multiple items it gets the next index
+    public String getNextItem() {
+        return collection.isEmpty() ? "Library is empty" : collection.get(0);
+    }
+    // If the list isn't empty it goes to the next index
+    public void skipNextItem() {
+        if (!collection.isEmpty()) {
+            collection.remove(0);
+        }
+    }
+    // Sorts the index position by its contents alphabetically
+    public void sortAlphabet() {
+        Collections.sort(collection);
+    }
+    // Grabs whatever index is wanted
+    public int find(String item) {
+        int index = collection.indexOf(item);
+        return index;
+    }
+    // Shuffles the index's
+    public void shuffle() {
+        Collections.shuffle(collection);
+    }
+    // t/f to see if the klist is empty. used for skipitem and get next
+    public boolean isEmpty() {
+        return collection.isEmpty();
+    }
+}
+    // The class that holds the library and all of the bulky user prompts 
+public class DigitalLibrary {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Library library = new Library();
+        String nowPlaying = "";
+        //While loop that keeps issuing the user prompts :)
+        //Gives user their options with a scanner to get responses.
+        while (true) {
+            System.out.println("\nOptions: Play, Skip, Add, Remove, Sort, Shuffle, Find, Exit");
+            System.out.print("Which would you like to do: ");
+            String command = scanner.nextLine().trim().toLowerCase();
+            // All of these if staments call the library class from earlier and are kind of redunadant so im not gonna comment unless its super special.
+            // Play calls is empty as a prerequisite and then gets the next item and prints it.
+            if (command.equals("play")) {
+                if (!library.isEmpty()) {
+                    nowPlaying = library.getNextItem();
+                    library.skipNextItem();
+                    System.out.println("Now Playing: " + nowPlaying);
+
+                } else {
+                    System.out.println("Library has no contents.");
+                }
+
+            } else if (command.equals("skip")) {
+                library.skipNextItem();
+                System.out.println("Skipped to next item.");
+
+            } else if (command.equals("add")) {
+                System.out.print("Enter item to add: ");
+                String itemToAdd = scanner.nextLine();
+                library.addItem(itemToAdd);
+                System.out.println("Added: " + itemToAdd);
+
+            } else if (command.equals("remove")) {
+                System.out.print("Enter item to remove: ");
+                String itemToRemove = scanner.nextLine();
+                library.removeItem(itemToRemove);
+                System.out.println("Removed: " + itemToRemove);
+
+            } else if (command.equals("sort")) {
+                library.sortAlphabet();
+                System.out.println("Sorted");
+
+            } else if (command.equals("shuffle")) {
+                library.shuffle();
+                System.out.println("Shuffled");
+                //Finds the items based on the position in the array and prints it
+            } else if (command.equals("find")) {
+                System.out.print("Enter item to find: ");
+                String itemToFind = scanner.nextLine();
+                int position = library.find(itemToFind);
+
+                if (position != -1) {
+                    System.out.println("Item Position: " + position);
+
+                } else {
+                    System.out.println("Item not in library.");
+
+                }
+                //CLoses the program
+            } else if (command.equals("exit")) {
+                scanner.close();
+                return;
+
+            } else {
+                System.out.println("Invalid Command");
+
+            }}}}
